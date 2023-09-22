@@ -38,16 +38,18 @@ const BlogItemDetails = props => {
     getBlogData()
   }, [props])
 
+  const {title, imageUrl, avatarUrl, content, author} = blogData
+
   return (
     <>
       <div className="blog-details-container">
-        <h1 className="Title">{blogData.title}</h1>
+        <h1 className="Title">{title}</h1>
         <div className="avatar-container">
-          <img src={blogData.avatarUrl} alt="avatar" className="avatar-img" />
-          <span className="Author">{blogData.author}</span>
+          <img src={avatarUrl} alt={author} className="avatar-img" />
+          <span className="Author">{author}</span>
         </div>
-        <img src={blogData.imageUrl} alt="blog-img" className="blog-img" />
-        <p className="blog-text">{blogData.content}</p>
+        <img src={imageUrl} alt={title} className="blog-img" />
+        <p className="blog-text">{content}</p>
       </div>
     </>
   )
