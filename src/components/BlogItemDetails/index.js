@@ -1,5 +1,8 @@
 // Write your JS code here
 import {useState, useEffect} from 'react'
+import Loader from 'react-loader-spinner'
+
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import './index.css'
 
 /* const blogData = {
@@ -16,9 +19,13 @@ import './index.css'
 const BlogItemDetails = props => {
   const [blogData, setBlogData] = useState([])
 
+  const [isLoading, setIsLoading] = useState(true)
+
   useEffect(() => {
     const getBlogData = async () => {
       const {match} = props
+      //   console.log(match)
+
       const {params} = match
       const {id} = params
       const response = await fetch(`https://apis.ccbp.in/blogs/${id}`)
@@ -34,6 +41,7 @@ const BlogItemDetails = props => {
       }
 
       setBlogData(updatedData)
+      setIsLoading(false)
     }
     getBlogData()
   }, [props])
@@ -42,15 +50,21 @@ const BlogItemDetails = props => {
 
   return (
     <>
-      <div className="blog-details-container">
-        <h1 className="Title">{title}</h1>
-        <div className="avatar-container">
-          <img src={avatarUrl} alt={author} className="avatar-img" />
-          <span className="Author">{author}</span>
+      {isLoading ? (
+        <div data-testid="loader">
+          <Loader type="TailSpin" color="#00bfff" height={50} width={50} />
         </div>
-        <img src={imageUrl} alt={title} className="blog-img" />
-        <p className="blog-text">{content}</p>
-      </div>
+      ) : (
+        <div className="blog-details-container">
+          <h1 className="Title">{title}</h1>
+          <div className="avatar-container">
+            <img src={avatarUrl} alt={author} className="avatar-img" />
+            <p className="Author">{author}</p>
+          </div>
+          <img src={imageUrl} alt={title} className="blog-img" />
+          <p className="blog-text">{content}</p>
+        </div>
+      )}
     </>
   )
 }
